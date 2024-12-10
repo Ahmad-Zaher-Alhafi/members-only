@@ -11,7 +11,7 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-router.get("/club", async (req, res) => {
+router.get("/club", isAuthenticated, async (req, res) => {
   let user = await req.user;
   user = {
     ...user,
@@ -27,5 +27,21 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 router.post("/login", controller.logIn);
+
+router.get("/logout", (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+function isAuthenticated(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+  res.status(401).send("You are not authenticated");
+}
 
 module.exports = router;
