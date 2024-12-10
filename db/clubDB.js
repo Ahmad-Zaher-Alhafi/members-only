@@ -33,4 +33,27 @@ async function getUserById(id) {
   return rows.length === 0 ? undefined : rows[0];
 }
 
-module.exports = { addUser, getUserByUsername, getUserById };
+async function addMessage(ownerId, title, timestamp, text) {
+  const addMessageQuery = `
+        insert into message (owner_Id, title, timestamp, text) values ($1,$2,$3,$4);
+        `;
+
+  await pool.query(addMessageQuery, [ownerId, title, timestamp, text]);
+}
+
+async function getAllMessages() {
+  const getAllMessagesQuery = `
+          select message.*, club_user.fullname from message join club_user on club_user.id = message.owner_id;
+          `;
+
+  const { rows } = await pool.query(getAllMessagesQuery);
+  return rows;
+}
+
+module.exports = {
+  addUser,
+  getUserByUsername,
+  getUserById,
+  addMessage,
+  getAllMessages,
+};

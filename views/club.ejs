@@ -19,11 +19,28 @@
         Welcome <%- user.fullName %> to the club, you are a member in this club
         and can see messages writers
       </h1>
-      <% } %> <% } else if (user.membership === "admin") { %>
+      <% } else if (user.membership === "admin") { %>
       <h1>Welcome <%- user.fullName %> to the club, you are and admin</h1>
-      <% } %>
+      <% } } %>
     </div>
 
-    <div class="messages">Messages will be shown here!</div>
+    <h1 class="messagesTitle">Messages will be shown here!</h1>
+    <% if (locals.messages && messages.length > 0) { %> <%
+    messages.forEach(message => { %>
+    <div class="messages">
+      <%- user.membership !== "guest"? message.fullName:undefined %> <%-
+      message.title %> <%- message.timestamp %> <%- message.text %>
+    </div>
+    <% }) %> <% } %>
+
+    <form action="/addMessage" method="post">
+      <label for="messageTitle">Title</label>
+      <input type="text" id="messageTitle" name="title" />
+
+      <label for="messageText">Text</label>
+      <input type="text" id="messageText" name="text" />
+
+      <button type="submit">Send</button>
+    </form>
   </body>
 </html>

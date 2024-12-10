@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
-const router = require("./routes/router");
+const userRouter = require("./routes/userRouter");
+const messageRouter = require("./routes/messageRouter");
 const path = require("path");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -36,6 +37,7 @@ passport.use(
     }
   })
 );
+userRouter;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -50,7 +52,8 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.use("/", router);
+app.use("/", userRouter);
+app.use("/", messageRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {
