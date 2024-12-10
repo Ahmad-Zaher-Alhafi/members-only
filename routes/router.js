@@ -11,15 +11,21 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-router.get("/club", (req, res) => {
-  const user = {
-    fullName: req.body.fullName,
-    membership: "guest",
+router.get("/club", async (req, res) => {
+  let user = await req.user;
+  user = {
+    ...user,
+    fullName: user.fullname,
   };
 
   res.render("club", { user });
 });
 
 router.post("/signup", controller.addUser);
+
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+router.post("/login", controller.logIn);
 
 module.exports = router;

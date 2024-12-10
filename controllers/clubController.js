@@ -1,6 +1,6 @@
 const db = require("../db/clubDB");
 const { body, validationResult } = require("express-validator");
-const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 const addUserValidation = [
   body("fullName")
@@ -62,3 +62,8 @@ exports.addUser = [
     res.redirect("/club");
   },
 ];
+
+exports.logIn = passport.authenticate("local", {
+  successRedirect: "/club",
+  failureRedirect: "/login",
+});

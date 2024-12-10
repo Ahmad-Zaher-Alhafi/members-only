@@ -15,7 +15,7 @@ async function addUser(fullName, username, password, membership) {
 
 async function getUserByUsername(username) {
   const getUserQuery = `
-    select username from club_user where username = $1;
+    select * from club_user where username = $1;
     `;
 
   const { rows } = await pool.query(getUserQuery, [username]);
@@ -23,4 +23,14 @@ async function getUserByUsername(username) {
   return rows.length === 0 ? undefined : rows[0];
 }
 
-module.exports = { addUser, getUserByUsername };
+async function getUserById(id) {
+  const getUserQuery = `
+      select * from club_user where id = $1;
+      `;
+
+  const { rows } = await pool.query(getUserQuery, [id]);
+
+  return rows.length === 0 ? undefined : rows[0];
+}
+
+module.exports = { addUser, getUserByUsername, getUserById };
