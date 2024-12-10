@@ -11,7 +11,17 @@ const addUserValidation = [
   body("username")
     .trim()
     .notEmpty()
-    .withMessage("Please fill the username field"),
+    .withMessage("Please fill the username field")
+    .custom(async (value, { req }) => {
+      const user = await db.getUserByUsername(req.body.username);
+      if (value === user?.username) {
+        throw new Error(
+          "This username is already taken, please use different one"
+        );
+      }
+
+      return true;
+    }),
 
   body("password")
     .trim()
@@ -48,6 +58,7 @@ exports.addUser = [
         db.addUser(fullName, username, hashedPassword, "guest");
       }
     });
-    res.redirect("/");
+
+    res.redirect("/club");
   },
 ];

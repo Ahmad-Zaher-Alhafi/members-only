@@ -11,6 +11,15 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 
+router.get("/club", (req, res) => {
+  const user = {
+    fullName: req.body.fullName,
+    membership: "guest",
+  };
+
+  res.render("club", { user });
+});
+
 router.post("/signup", controller.addUser);
 
 module.exports = router;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Club</title>
+  </head>
+  <body>
+    <div class="welcome">
+      <% if (locals.user) { %> <% if (user.membership === "guest") { %>
+      <h1>
+        Welcome <%- user.fullName %> to the club, you are only a guest,
+        subsecribe to be able to see the writers of the messages
+      </h1>
+      <% } else if (user.membership === "member") { %>
+      <h1>
+        Welcome <%- user.fullName %> to the club, you are a member in this club
+        and can see messages writers
+      </h1>
+      <% } %> <% } else if (user.membership === "admin") { %>
+      <h1>Welcome <%- user.fullName %> to the club, you are and admin</h1>
+      <% } %>
+    </div>
+
+    <div class="messages">Messages will be shown here!</div>
+  </body>
+</html>

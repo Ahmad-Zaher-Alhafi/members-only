@@ -13,4 +13,14 @@ async function addUser(fullName, username, password, membership) {
   }
 }
 
-module.exports = { addUser };
+async function getUserByUsername(username) {
+  const getUserQuery = `
+    select username from club_user where username = $1;
+    `;
+
+  const { rows } = await pool.query(getUserQuery, [username]);
+
+  return rows.length === 0 ? undefined : rows[0];
+}
+
+module.exports = { addUser, getUserByUsername };
